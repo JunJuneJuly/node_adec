@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>修改页面</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+<body>
+  <h3>修改页面</h3>
+  <form action="/doedit" method="post">
+    <input type="hidden" name="id" id="inphide">
+    <div>用户名：
+      <input type="text" name="username" id="username">
+    </div>
+    <div>密码：
+      <input type="text" name="password" id="password">
+    </div>
+    <input type="submit" value="修改">
+  </form>
+</body>
+<script>
+  //获取路径的id
+  var params = new URLSearchParams(location.search);
+  const id = params.get('index');
+  console.log(id);
+  //获取修改值
+  loadDetail();
+  function loadDetail(){
+    $.ajax({
+      url:'/user?id='+id,
+      success:res => {
+        const data = JSON.parse(res)
+        $('#username').val(data.user.username);
+        $('#password').val(data.user.password);
+        $('#inphide').val(id);
+      }
+    })
+  }
+</script>
+</html>
